@@ -12,10 +12,11 @@ const getAll = async () => {
             },
         });
         const data = await response.json();
-        return data;
+        return { ok: response.ok, status: response.status, data };
     } catch (error) {
-        console.error("Error in getAll():", error);
-    }
+
+        console.error("Error en getAll():", error);
+        return { ok: false, status: 500, data: null };}
 };
 
 const getOne = async (id) => {
@@ -26,8 +27,7 @@ const getOne = async (id) => {
         },
     });
     if (!response.ok) throw new Error("error getting category");
-    const data = await response.json();
-    return data;
+    const data = await response.json();return data;
 };
 
 const create = async (categoryCreate) => {
@@ -52,6 +52,28 @@ const update = async (id, categoryUpdate) => {
     });
     return await response.json();
 };
+const remove = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}/categories/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${TOKEN}`,
+            },
+        });
+        let data = null;
+        if (response.status !== 204) {
+            try {
+                data = await response.json();
+            } catch {
+                data = null;
+            }
+        }
+        return { ok: response.ok, status: response.status, data };
+    } catch (error) {
+        return { ok: false, status: 500, data: null };
+    }
+};
 export default {
-    getAll, getOne, create, update
+    getAll, getOne, create, update, remove
 };
