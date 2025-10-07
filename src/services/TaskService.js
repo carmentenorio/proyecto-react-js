@@ -3,7 +3,6 @@ const TOKEN = "7|yakMVA4sHL7YiqicAfkSXeYZbcfod3MpGDuNPDQf0ac706e3";
 
 const getAll = async () => {
     try {
-
         const response = await fetch(`${API_URL}/tasks`, {
             method: "GET",
             headers: {
