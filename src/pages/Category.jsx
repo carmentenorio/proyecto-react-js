@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
 import CategoryService from '../services/CategoryService';
 
 function Category() {
   const [categories, setCategories] = useState([]);
+  const navigate= useNavigate();
 
   const CategoryAll = async () => {
     try {
@@ -30,9 +32,9 @@ function Category() {
     const confirmDelete = window.confirm(`¿Seguro que deseas eliminar la categoría "${category.name}"?`);
     if (confirmDelete) {
       try {
-        await CategoryService.delete(category.id); 
+        await CategoryService.delete(category.id);
         alert(`Categoría "${category.name}" eliminada correctamente`);
-        CategoryAll(); 
+        CategoryAll();
       } catch (error) {
         console.error(error);
       }
