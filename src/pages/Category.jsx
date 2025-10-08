@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
 import CategoryService from '../services/CategoryService';
 
 function Category() {
   const [categories, setCategories] = useState([]);
+  const navigate= useNavigate();
 
   const CategoryAll = async () => {
     try {
