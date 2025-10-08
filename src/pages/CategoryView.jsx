@@ -30,14 +30,6 @@ function CategoryView() {
             <div className="card shadow-sm p-4">
                 <p><strong>ID:</strong> {category.id}</p>
                 <p><strong>Nombre:</strong> {category.name}</p>
-                <p>
-                    <strong>Estado:</strong>{" "}
-                    {category.active ? (
-                        <span className="badge bg-success">Activa</span>
-                    ) : (
-                        <span className="badge bg-secondary">Inactiva</span>
-                    )}
-                </p>
             </div>
         </div>
     );

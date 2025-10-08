@@ -27,6 +27,7 @@ function Category() {
     navigate(`/categories/edit/${category.id}`);
   };
 
+<<<<<<< HEAD:src/pages/CategoryListPage.jsx
   const handleDelete = async (category) => {
     const confirmDelete = window.confirm(`Surely you want to delete the category? "${category.name}"?`);
     if (confirmDelete) {
@@ -37,11 +38,24 @@ function Category() {
         console.error(error);
       }
     }
+=======
+  const handleCreate = () => {
+    navigate(`/categories/create`);
+>>>>>>> b2e273f (PR-13: Implement create() method in CategoryService to register new categories and create /category/create form and connect to CategoryService.create()):src/pages/Category.jsx
   };
 
   return (
     <div className="container mt-5">
       <h2 className="mb-4 text-center">List of Categories</h2>
+
+      <div className="d-flex justify-content-end mb-3">
+        <button
+          className="btn btn-primary"
+          onClick={handleCreate}
+        >
+          Create Category
+        </button>
+      </div>
       <div className="table-responsive shadow-sm rounded">
         <table className="table table-striped table-hover align-middle">
           <thead className="table-dark">
@@ -51,6 +65,7 @@ function Category() {
               <th scope="col">State</th>
               <th scope="col">Accions</th>
             </tr>
+
           </thead>
           <tbody>
             {categories.length > 0 ? (

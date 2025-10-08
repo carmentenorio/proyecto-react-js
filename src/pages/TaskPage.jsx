@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import TaskService from '../services/TaskService';
+import { useNavigate } from 'react-router-dom';
 
 function Task() {
   const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
+
   const taskAll = async () => {
     try {
       const data = await TaskService.getAll();
@@ -10,7 +13,11 @@ function Task() {
       setTasks(data.data);
     } catch (error) {
       console.log(error);
-    } 
+    }
+  };
+  const handleCreate = (tasks) => {
+    
+    navigate('/task/create')
   };
 
   useEffect(() => {
@@ -20,7 +27,14 @@ function Task() {
   return (
     <div className="container mt-5">
       <h2 className="mb-4 text-center">List of Tasks</h2>
-
+      <div className="d-flex justify-content-end mb-3">
+        <button
+          className="btn btn-primary"
+          onClick={() => handleCreate(tasks)}
+        >
+          Create Task
+        </button>
+      </div>
       <div className="table-responsive shadow-sm rounded">
         <table className="table table-striped table-hover align-middle">
           <thead className="table-dark">
@@ -58,7 +72,7 @@ function Task() {
           </tbody>
         </table>
       </div>
-    </div>
+    </div >
   );
 }
 
