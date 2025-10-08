@@ -3,7 +3,7 @@ import TaskService from '../services/TaskService';
 
 function Task() {
   const [tasks, setTasks] = useState([]);
-
+  
   const taskAll = async () => {
     try {
       const data = await TaskService.getAll();
