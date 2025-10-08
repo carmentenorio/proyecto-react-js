@@ -13,6 +13,7 @@ function App() {
       <NavigationBar />
       <main className="flex-fill w-100">
         <Routes>
+          <Route path="/task" element={<Task />} />
           <Route path="/categories" element={<Category />} />
           <Route path="/categories/view/:id" element={<CategoryView />} />
           <Route path="/categories/create" element={<CategoryCreate />} />

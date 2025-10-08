@@ -8,8 +8,7 @@ function Category() {
 
   const CategoryAll = async () => {
     try {
-      const data = await CategoryService.getAll();
-      setCategories(data.data);
+      const data = await CategoryService.getAll(); setCategories(data.data);
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +36,10 @@ function Category() {
         console.error(error);
       }
     }
+  }
+
+  const handleCreate = () => {
+    navigate(`/categories/create`);
   };
 
   return (
