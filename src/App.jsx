@@ -13,7 +13,8 @@ function App() {
       <main className="flex-fill w-100">
         <Routes>
           <Route path="/task" element={<Task />} />
-          <Route path="/category" element={<Category />} />
+          <Route path="/categories" element={<Category />} />
+
           <Route path="/tag" element={<Tag />} />
         </Routes>
       </main>

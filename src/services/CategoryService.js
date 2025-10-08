@@ -3,8 +3,7 @@ const TOKEN = "7|yakMVA4sHL7YiqicAfkSXeYZbcfod3MpGDuNPDQf0ac706e3";
 
 const getAll = async () => {
     try {
-
-        const response = await fetch(`${API_URL}/tasks`, {
+        const response = await fetch(`${API_URL}/categories`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -12,7 +11,6 @@ const getAll = async () => {
                 "Authorization": `Bearer ${TOKEN}`
             },
         });
-
         const data = await response.json();
         return data;
     } catch (error) {
