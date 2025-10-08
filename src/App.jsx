@@ -11,9 +11,7 @@ function App() {
       <main className="flex-fill w-100">
         <Routes>
           <Route path="/categories" element={<Category />} />
-          <Route path="/categories/view/:id" element={<CategoryView />} />
-        </Routes>
-      </main>
+          <Route path="/categories/view/:id" element={<CategoryView />} /> </Routes></main>
       <Footer />
     </div>
   );
