@@ -31,6 +31,16 @@ const getOne = async (id) => {
     return data;
 };
 
+const create = async (categoryCreate) => {
+    const response = await fetch(`${API_URL}/categories`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify(categoryCreate),
+    });
+}
 export default {
-    getAll, getOne
+    getAll, getOne, create
 };

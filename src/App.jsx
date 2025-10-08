@@ -6,6 +6,7 @@ import Task from './pages/TaskPage';
 import Category from './pages/Category';
 import Tag from './pages/Tag';
 import CategoryView from './pages/CategoryView';
+import CategoryCreate from './pages/CategoryCreate';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/task" element={<Task />} />
           <Route path="/categories" element={<Category />} />
           <Route path="/categories/view/:id" element={<CategoryView />} />
+          <Route path="/categories/create" element={<CategoryCreate />} />
           <Route path="/tag" element={<Tag />} />
         </Routes>
       </main>
