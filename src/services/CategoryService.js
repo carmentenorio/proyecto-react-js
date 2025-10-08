@@ -52,6 +52,16 @@ const update = async (id, categoryUpdate) => {
     });
     return await response.json();
 };
+const remove = async (id) => {
+  const response = await fetch(`${API_URL}/categories/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${TOKEN}`,
+    },
+  });
+  return await response.json();
+};
 export default {
-    getAll, getOne, create, update
+    getAll, getOne, create, update, remove
 };

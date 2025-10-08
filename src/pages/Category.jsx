@@ -32,6 +32,21 @@ function Category() {
     navigate(`/categories/create`);
   };
 
+  const handleDelete = async (category) => {
+    const confirmDelete = window.confirm(`¿Estás seguro que quieres eliminar la categoría "${category.name}"?`);
+
+    if (confirmDelete) {
+      try {
+        await CategoryService.remove(category.id);
+        alert("Categoría eliminada correctamente");
+        CategoryAll();
+      } catch (error) {
+        console.error("Error al eliminar:", error);
+        alert("Ocurrió un error al eliminar la categoría");
+      }
+    }
+  };
+
   return (
     <div className="container mt-5">
       <h2 className="mb-4 text-center">List of Categories</h2>
@@ -60,7 +75,7 @@ function Category() {
                 <tr key={category.id}>
                   <td>{index + 1}</td>
                   <td>{category.name}</td>
-                  
+
                   <td className="text-center">
                     <button
                       className="btn btn-sm btn-info me-2"
