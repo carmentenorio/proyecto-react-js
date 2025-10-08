@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import NavigationBar from './components/Navbar';
 import Footer from './components/Footer';
 import Category from './pages/Category';
+import CategoryView from './pages/CategoryView';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       <main className="flex-fill w-100">
         <Routes>
           <Route path="/categories" element={<Category />} />
-        </Routes>
+          <Route path="/categories/view/:id" element={<CategoryView />} /> </Routes>
       </main>
       <Footer />
     </div>
