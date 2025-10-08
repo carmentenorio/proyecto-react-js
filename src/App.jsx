@@ -7,6 +7,7 @@ import Category from './pages/Category';
 import Tag from './pages/Tag';
 import CategoryView from './pages/CategoryView';
 import CategoryCreate from './pages/CategoryCreate';
+import CategoryUpdate from './pages/CategoryUpdate';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/categories" element={<Category />} />
           <Route path="/categories/view/:id" element={<CategoryView />} />
           <Route path="/categories/create" element={<CategoryCreate />} />
+          <Route path="/categories/edit/:id" element={<CategoryUpdate />} ></Route>
           <Route path="/tag" element={<Tag />} />
         </Routes>
       </main>

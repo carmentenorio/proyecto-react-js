@@ -41,6 +41,27 @@ const create = async (categoryCreate) => {
         body: JSON.stringify(categoryCreate),
     });
 }
+const update = async (id, categoryUpdate) => {
+    const response = await fetch(`${API_URL}/categories/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify(categoryUpdate),
+    });
+    return await response.json();
+};
+const remove = async (id) => {
+  const response = await fetch(`${API_URL}/categories/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${TOKEN}`,
+    },
+  });
+  return await response.json();
+};
 export default {
-    getAll, getOne, create
+    getAll, getOne, create, update, remove
 };

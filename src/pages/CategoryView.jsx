@@ -6,7 +6,6 @@ function CategoryView() {
     const { id } = useParams();
     const [category, setCategory] = useState(null);
 
-
     useEffect(() => {
         const fetchCategory = async () => {
             try {
@@ -19,7 +18,6 @@ function CategoryView() {
 
         fetchCategory();
     }, [id]);
-
 
     if (!category)
         return <p className="text-center mt-5">Categoría no encontrada</p>;
