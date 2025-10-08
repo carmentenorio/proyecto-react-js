@@ -32,8 +32,7 @@ function Category() {
     if (confirmDelete) {
       try {
         await CategoryService.delete(category.id);
-        alert(`Categoría "${category.name}" successfully removed`);
-        CategoryAll();
+        alert(`Categoría "${category.name}" successfully removed`); CategoryAll();
       } catch (error) {
         console.error(error);
       }
