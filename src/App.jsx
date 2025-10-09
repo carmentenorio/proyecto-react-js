@@ -2,7 +2,7 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import NavigationBar from './components/Navbar';
 import Footer from './components/Footer';
-import Task from './pages/Task';
+import Task from './pages/TaskListPage';
 import Category from './pages/Category';
 import Tag from './pages/Tag';
 
