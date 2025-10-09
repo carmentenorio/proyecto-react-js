@@ -7,7 +7,6 @@ function Task() {
   const taskAll = async () => {
     try {
       const data = await TaskService.getAll();
-      console.log("tasks:", data);
       setTasks(data.data);
     } catch (error) {
       console.log(error);
@@ -41,7 +40,7 @@ function Task() {
                 <tr key={task.id}>
                   <td>{index + 1}</td>
                   <td>{task.title}</td>
-                  <td>{task.description ?? "Sin descripción"}</td>
+                  <td>{task.description ?? "No description"}</td>
                   <td>
                     {task.completed ? (
                       <span className="badge bg-success">Completed</span>
