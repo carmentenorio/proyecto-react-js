@@ -2,9 +2,7 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import NavigationBar from './components/Navbar';
 import Footer from './components/Footer';
-import Task from './pages/TaskListPage';
 import Category from './pages/Category';
-import Tag from './pages/Tag';
 
 function App() {
   return (
@@ -12,9 +10,7 @@ function App() {
       <NavigationBar />
       <main className="flex-fill w-100">
         <Routes>
-          <Route path="/task" element={<Task />} />
-          <Route path="/category" element={<Category />} />
-          <Route path="/tag" element={<Tag />} />
+          <Route path="/categories" element={<Category />} />
         </Routes>
       </main>
       <Footer />
