@@ -7,7 +7,6 @@ function Category() {
   const CategoryAll = async () => {
     try {
       const data = await CategoryService.getAll();
-      console.log("categories:", data);
       setCategories(data.data);
     } catch (error) {
       console.log(error);
