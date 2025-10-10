@@ -15,8 +15,8 @@ function App() {
           <Route path="/categories" element={<Category />} />
           <Route path="/categories/view/:id" element={<CategoryView />} />
           <Route path="/categories/create" element={<CategoryCreate />} />
-          <Route path="/tag" element={<Tag />} />
-        </Routes></main><Footer />
+        </Routes></main>
+      <Footer />
     </div>
   );
 }
