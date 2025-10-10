@@ -26,13 +26,14 @@ function CategoryCreate() {
         try {
             const response = await CategoryService.create(formData);
 
-            alert("Categoría creada correctamente");
-
-            navigate("/categories");
-
             if (!response.ok) {
-                throw new Error("There was an error creating the category");
+                throw new Error("There was an error creating the category.");
             }
+<<<<<<< HEAD
+=======
+            setShowModal(true);
+
+>>>>>>> 559f5ec (Fix comments: PR-13 Implement create() method in CategoryService to register new categories and create /category/create form and connect to CategoryService.create())
         } catch (error) {
             setError(error.message);
         }
@@ -65,8 +66,9 @@ function CategoryCreate() {
                         Save
                     </button>
                     {error && <p className="text-danger mt-2">{error}</p>}
-                </form >
-            </div >
+
+                </form>
+            </div>
             <Modal show={showModal} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Category created</Modal.Title>

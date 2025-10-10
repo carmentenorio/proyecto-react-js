@@ -39,6 +39,7 @@ const create = async (categoryCreate) => {
         },
         body: JSON.stringify(categoryCreate),
     });
+    return response;
 }
 export default {
     getAll, getOne, create
