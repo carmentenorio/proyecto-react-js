@@ -14,7 +14,7 @@ const getAll = async () => {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Error en getAll():", error);
+        console.error("Error in getAll():", error);
     }
 };
 
@@ -25,9 +25,9 @@ const getOne = async (id) => {
             "Authorization": `Bearer ${TOKEN}`,
         },
     });
-    if (!response.ok) throw new Error("error al obtenr la categoria");
+    if (!response.ok) throw new Error("error getting category");
     const data = await response.json();
-    console.log("Respuesta API:", data);
+    console.log("API response:", data);
     return data;
 };
 

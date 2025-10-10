@@ -4,7 +4,7 @@ import CategoryService from '../services/CategoryService';
 
 function Category() {
   const [categories, setCategories] = useState([]);
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const CategoryAll = async () => {
     try {
@@ -28,18 +28,17 @@ function Category() {
   };
 
   const handleDelete = async (category) => {
-    const confirmDelete = window.confirm(`¿Seguro que deseas eliminar la categoría "${category.name}"?`);
+    const confirmDelete = window.confirm(`Surely you want to delete the category? "${category.name}"?`);
     if (confirmDelete) {
       try {
         await CategoryService.delete(category.id);
-        alert(`Categoría "${category.name}" eliminada correctamente`);
+        alert(`Categoría "${category.name}" successfully removed`);
         CategoryAll();
       } catch (error) {
         console.error(error);
       }
     }
   };
-
 
   return (
     <div className="container mt-5">
