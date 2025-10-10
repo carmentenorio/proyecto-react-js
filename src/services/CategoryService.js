@@ -27,7 +27,6 @@ const getOne = async (id) => {
     });
     if (!response.ok) throw new Error("error getting category");
     const data = await response.json();
-    console.log("API response:", data);
     return data;
 };
 
