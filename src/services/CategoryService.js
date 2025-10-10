@@ -14,10 +14,22 @@ const getAll = async () => {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Error en getAll():", error);
+        console.error("Error in getAll():", error);
     }
 };
 
+const getOne = async (id) => {
+    const response = await fetch(`${API_URL}/categories/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${TOKEN}`,
+        },
+    });
+    if (!response.ok) throw new Error("error getting category");
+    const data = await response.json();
+    return data;
+};
+
 export default {
-    getAll
+    getAll, getOne
 };
