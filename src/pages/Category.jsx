@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
 import CategoryService from '../services/CategoryService';
 
 function Category() {
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
   const CategoryAll = async () => {
     try {
@@ -25,23 +27,22 @@ function Category() {
     navigate(`/categories/edit/${category.id}`);
   };
 
-  const handleDelete = async (category) => {
-    const confirmDelete = window.confirm(`¿Seguro que deseas eliminar la categoría "${category.name}"?`);
-    if (confirmDelete) {
-      try {
-        await CategoryService.delete(category.id); 
-        alert(`Categoría "${category.name}" eliminada correctamente`);
-        CategoryAll(); 
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  const handleCreate = () => {
+    navigate(`/categories/create`);
   };
-
 
   return (
     <div className="container mt-5">
       <h2 className="mb-4 text-center">List of Categories</h2>
+
+      <div className="d-flex justify-content-end mb-3">
+        <button
+          className="btn btn-primary"
+          onClick={handleCreate}
+        >
+          Create Category
+        </button>
+      </div>
       <div className="table-responsive shadow-sm rounded">
         <table className="table table-striped table-hover align-middle">
           <thead className="table-dark">
@@ -51,6 +52,7 @@ function Category() {
               <th scope="col">State</th>
               <th scope="col">Accions</th>
             </tr>
+
           </thead>
           <tbody>
             {categories.length > 0 ? (

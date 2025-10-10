@@ -18,6 +18,30 @@ const getAll = async () => {
     }
 };
 
+const getOne = async (id) => {
+    const response = await fetch(`${API_URL}/categories/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${TOKEN}`,
+        },
+    });
+    if (!response.ok) throw new Error("error al obtenr la categoria");
+    const data = await response.json();
+    console.log("Respuesta API:", data);
+    return data;
+};
+
+const create = async (categoryCreate) => {
+    const response = await fetch(`${API_URL}/categories`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify(categoryCreate),
+    });
+    return response;
+}
 export default {
-    getAll
+    getAll, getOne, create
 };
