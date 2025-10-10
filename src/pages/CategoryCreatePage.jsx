@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { Modal, Button } from "react-bootstrap";
 import CategoryService from '../services/CategoryService';
 import { useNavigate } from 'react-router-dom';
 
 function CategoryCreate() {
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
@@ -24,17 +26,18 @@ function CategoryCreate() {
         try {
             const response = await CategoryService.create(formData);
 
-            alert("Categoría creada correctamente");
-
-            navigate("/categories");
-
             if (!response.ok) {
-                throw new Error("There was an error creating the category");
+                throw new Error("There was an error creating the category.");
             }
-            
+            setShowModal(true);
+
         } catch (error) {
             setError(error.message);
         }
+    };
+    const handleClose = () => {
+        setShowModal(false);
+        navigate("/categories");
     };
 
     return (
@@ -60,9 +63,20 @@ function CategoryCreate() {
                     >
                         Save
                     </button>
-
+                    {error && <p className="text-danger mt-2">{error}</p>}
                 </form>
             </div>
+            <Modal show={showModal} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Category created</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>The category was created successfully.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleClose}>
+                        Accept
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 
