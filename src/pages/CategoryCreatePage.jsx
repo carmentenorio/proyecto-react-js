@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 
 function CategoryCreate() {
     const navigate = useNavigate();
+    const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
         name: ""
     }
     );
-    //
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -19,20 +19,22 @@ function CategoryCreate() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
 
         try {
             const response = await CategoryService.create(formData);
-            console.log("Categoría creada:", response);
-            alert("Categoría creada correctamente");
-            navigate("/categories");
-        } catch (error) {
-            console.error(error);
-            setError("Hubo un error al crear la categoría");
-        }
-    };
 
-    const handleCreate = () => {
-        navigate(`/categories/create`);
+            alert("Categoría creada correctamente");
+
+            navigate("/categories");
+
+            if (!response.ok) {
+                throw new Error("There was an error creating the category");
+            }
+            
+        } catch (error) {
+            setError(error.message);
+        }
     };
 
     return (

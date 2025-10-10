@@ -4,7 +4,7 @@ import NavigationBar from './components/Navbar';
 import Footer from './components/Footer';
 import Category from './pages/Category';
 import CategoryView from './pages/CategoryView';
-import CategoryCreate from './pages/CategoryCreate';
+import CategoryCreate from './pages/CategoryCreatePage';
 
 function App() {
   return (
