@@ -29,11 +29,7 @@ function CategoryCreate() {
             if (!response.ok) {
                 throw new Error("There was an error creating the category.");
             }
-<<<<<<< HEAD
-=======
             setShowModal(true);
-
->>>>>>> 559f5ec (Fix comments: PR-13 Implement create() method in CategoryService to register new categories and create /category/create form and connect to CategoryService.create())
         } catch (error) {
             setError(error.message);
         }
