@@ -1,10 +1,13 @@
+import { Modal, Button } from "react-bootstrap";
 import { useEffect, useState } from 'react';
 import CategoryService from '../services/CategoryService';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 function CategoryUpdate() {
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+    const [error, setError] = useState(null);
     const { id } = useParams();
     const [formData, setFormData] = useState({
         name: ""
@@ -16,8 +19,9 @@ function CategoryUpdate() {
             try {
                 const response = await CategoryService.getOne(id);
                 setCategory(response.data);
+
             } catch (error) {
-                console.log(error);
+                setError(error.message);
             }
         };
 
@@ -34,16 +38,23 @@ function CategoryUpdate() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
 
         try {
             const response = await CategoryService.update(id, formData);
-            console.log("Categoría editada:", response);
-            alert("Categoría actualizada correctamente");
             navigate("/categories");
+
+            if (!response.ok) {
+                throw new Error("There was an error editing the category");
+                setShowModal(true);
+            }
         } catch (error) {
-            console.error(error);
-            setError("Hubo un error al editar la categoría");
+            setError(error.message);
         }
+    };
+    const handleClose = () => {
+        setShowModal(false);
+        navigate("/categories");
     };
 
     return (
@@ -72,6 +83,17 @@ function CategoryUpdate() {
 
                 </form>
             </div>
+            <Modal show={showModal} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Category created</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>The category was created successfully.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleClose}>
+                        Accept
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 
