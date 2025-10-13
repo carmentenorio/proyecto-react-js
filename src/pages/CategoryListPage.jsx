@@ -8,8 +8,7 @@ function Category() {
 
   const CategoryAll = async () => {
     try {
-      const data = await CategoryService.getAll();
-      setCategories(data.data);
+      const data = await CategoryService.getAll(); setCategories(data.data);
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +36,10 @@ function Category() {
         console.error(error);
       }
     }
+  }
+
+  const handleCreate = () => {
+    navigate(`/categories/create`);
   };
 
   return (
@@ -57,7 +60,6 @@ function Category() {
             <tr>
               <th></th>
               <th scope="col">Title</th>
-              <th scope="col">State</th>
               <th scope="col">Accions</th>
             </tr>
 
@@ -68,13 +70,7 @@ function Category() {
                 <tr key={category.id}>
                   <td>{index + 1}</td>
                   <td>{category.name}</td>
-                  <td>
-                    {category.completed ? (
-                      <span className="badge bg-success">Completed</span>
-                    ) : (
-                      <span className="badge bg-warning text-dark">Earring</span>
-                    )}
-                  </td>
+                  
                   <td className="text-center">
                     <button
                       className="btn btn-sm btn-info me-2"
