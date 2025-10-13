@@ -32,8 +32,7 @@ function Category() {
     if (confirmDelete) {
       try {
         await CategoryService.delete(category.id);
-        alert(`Categoría "${category.name}" successfully removed`);
-        CategoryAll();
+        alert(`Categoría "${category.name}" successfully removed`); CategoryAll();
       } catch (error) {
         console.error(error);
       }
@@ -43,6 +42,15 @@ function Category() {
   return (
     <div className="container mt-5">
       <h2 className="mb-4 text-center">List of Categories</h2>
+
+      <div className="d-flex justify-content-end mb-3">
+        <button
+          className="btn btn-primary"
+          onClick={handleCreate}
+        >
+          Create Category
+        </button>
+      </div>
       <div className="table-responsive shadow-sm rounded">
         <table className="table table-striped table-hover align-middle">
           <thead className="table-dark">
@@ -52,6 +60,7 @@ function Category() {
               <th scope="col">State</th>
               <th scope="col">Accions</th>
             </tr>
+
           </thead>
           <tbody>
             {categories.length > 0 ? (

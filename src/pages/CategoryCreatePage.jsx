@@ -30,7 +30,6 @@ function CategoryCreate() {
                 throw new Error("There was an error creating the category.");
             }
             setShowModal(true);
-
         } catch (error) {
             setError(error.message);
         }
@@ -39,7 +38,6 @@ function CategoryCreate() {
         setShowModal(false);
         navigate("/categories");
     };
-
     return (
         <div className="container mt-5">
             <h2 className="mb-4 text-center">Create new Category</h2>
@@ -64,6 +62,7 @@ function CategoryCreate() {
                         Save
                     </button>
                     {error && <p className="text-danger mt-2">{error}</p>}
+
                 </form>
             </div>
             <Modal show={showModal} onHide={handleClose} centered>
@@ -77,7 +76,7 @@ function CategoryCreate() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </div >
     );
 
 }
