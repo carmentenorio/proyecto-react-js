@@ -11,6 +11,7 @@ import Tag from './pages/TagListPage';
 import TagView from './pages/TagViewPage';
 import TagUpdate from './pages/TagUpdate';
 import TagCreate from './pages/TagCreatePage';
+import TaskCreate from './pages/TaskCreatePage';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
       <NavigationBar />
       <main className="flex-fill w-100">
         <Routes>
-          <Route path="/task" element={<Task />} />
+          <Route path="/tasks" element={<Task />} />
+          <Route path="/tasks/create" element={<TaskCreate />} />
           <Route path="/categories" element={<Category />} />
           <Route path="/categories/:id/view" element={<CategoryView />} />
           <Route path="/categories/create" element={<CategoryCreate />} />

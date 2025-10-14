@@ -20,6 +20,23 @@ const getAll = async () => {
     }
 };
 
+const create = async (taskData) => {
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${TOKEN}`
+            },
+            body: JSON.stringify(taskData),
+        });
+        return await response.json();
+
+    } catch (error) {
+        console.log("Error in create", error);
+
+    }
+}
 export default {
-    getAll
+    getAll, create
 };
