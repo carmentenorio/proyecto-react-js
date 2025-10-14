@@ -18,7 +18,6 @@ function Task() {
       console.log(error);
     }
   };
-
   useEffect(() => {
     taskAll();
   }, []);
@@ -78,6 +77,13 @@ function Task() {
                   <td>{task.description ?? "No description"}</td>
                   <td>
                     Categories: {task.category?.name || "Uncategorized"}<br />
+                    Tags:{" "}
+                    {task.tags && task.tags.length > 0
+                      ? task.tags.map((tag) => tag.name).join(", ")
+                      : "Sin tags"}
+                  </td>
+                  <td>
+                    Categoría: {task.category?.name || "Sin categoría"}<br />
                     Tags:{" "}
                     {task.tags && task.tags.length > 0
                       ? task.tags.map((tag) => tag.name).join(", ")
