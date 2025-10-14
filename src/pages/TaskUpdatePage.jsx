@@ -4,10 +4,10 @@ import { Modal, Button } from "react-bootstrap";
 import TaskService from '../services/TaskService';
 import CategoryService from '../services/CategoryService';
 import TagService from '../services/TagService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 
-function TaskCreate() {
+function TaskUpdate() {
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -18,35 +18,45 @@ function TaskCreate() {
         description: "",
         category_id: null,
         tags: [],
+        completed: false,
     });
+    const { id } = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const categoriesResponse = await CategoryService.getAll();
-                const tagsResponse = await TagService.getAll();
+                const [taskResponse, categoriesResponse, tagsResponse] = await Promise.all([
+                    TaskService.getOne(id),
+                    CategoryService.getAll(),
+                    TagService.getAll(),
+                ]);
+                const taskData = taskResponse.data || taskResponse;
+
+                setFormData({
+                    title: taskData.title || "",
+                    description: taskData.description || "",
+                    category_id: taskData.category_id || null,
+                    tag_ids: taskData.tags ? taskData.tags.map(t => t.id) : [],
+                    completed: taskData.completed || false,
+                });
                 setCategories(categoriesResponse.data?.data || categoriesResponse.data || []);
                 setTags(tagsResponse.data?.data || []);
+
             } catch (error) {
-                setError("Error loading categories/tags:", error);
+                setError("Error loading tasks:", error);
             }
         };
         fetchData();
-    }, []);
+    }, [id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
 
         try {
-            const response = await TaskService.create(formData);
+            await TaskService.update(id, formData);
             setShowModal(true);
-            setFormData({
-                title: "",
-                description: "",
-                category_id: null,
-                tags: [],
-            });
+
         } catch (error) {
             setError(error.message);
         }
@@ -66,11 +76,26 @@ function TaskCreate() {
     };
     return (
         <div className="container mt-5">
-            <h2 className="mb-4 text-center">Create new Task</h2>
+            <h2 className="mb-4 text-center">Edit Task</h2>
 
             <div className="card shadow-sm p-4">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
+                        <div className="form-check mt-3">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="completed"
+                                checked={formData.completed}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, completed: e.target.checked })
+                                }
+                            />
+                            <label className="form-check-label" htmlFor="completed">
+                                Completed?
+                            </label>
+                        </div>
+
                         <label className="form-label">Title</label>
                         <input
                             type="text"
@@ -87,22 +112,19 @@ function TaskCreate() {
                             value={formData.description}
                             onChange={handleChange}
                             className="form-control"
-                            required
                         />
                     </div>
-                    <button
-                        type="submit"
-                        className="btn btn-sm btn-info me-2"
-                    >
-                        Save
-                    </button>
-                    {error && <p className="text-danger mt-2">{error}</p>}
 
                     <Select
                         options={(categories || []).map((c) => ({
                             value: c.id,
                             label: c.name,
                         }))}
+                        value={
+                            categories
+                                .map((c) => ({ value: c.id, label: c.name }))
+                                .find((opt) => opt.value === formData.category_id) || null
+                        }
                         onChange={(opt) =>
                             setFormData({
                                 ...formData,
@@ -113,26 +135,37 @@ function TaskCreate() {
                     />
                     <Select
                         isMulti
-                        options={(tags || []).map((t) => ({
-                            value: t.id,
-                            label: t.name,
-                        }))}
+                        options={tags.map(t => ({ value: t.id, label: t.name }))}
+                        value={(formData.tags || []).map(id => {
+                            const tag = tags.find(t => t.id === id);
+                            return tag ? { value: tag.id, label: tag.name } : null;
+                        }).filter(Boolean)}
+
                         onChange={(selected) =>
                             setFormData({
                                 ...formData,
-                                tags: selected.map((t) => t.value),
+                                tags: selected.map(t => t.value),
                             })
                         }
                         placeholder="Select a tags"
                     />
 
+                    <button
+                        type="submit"
+                        className="btn btn-sm btn-info me-2"
+                    >
+                        Save
+                    </button>
+
+                    {error && <p className="text-danger mt-2">{error}</p>}
+
                 </form>
             </div>
             <Modal show={showModal} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Task created</Modal.Title>
+                    <Modal.Title>Task edited</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>The task was created successfully.</Modal.Body>
+                <Modal.Body>The task was edited successfully.</Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleClose}>
                         Accept
@@ -144,4 +177,4 @@ function TaskCreate() {
 
 }
 
-export default TaskCreate;
+export default TaskUpdate;

@@ -18,6 +18,7 @@ function TaskCreate() {
         description: "",
         category_id: null,
         tags: [],
+        completed: false,
     });
 
     useEffect(() => {
@@ -71,6 +72,21 @@ function TaskCreate() {
             <div className="card shadow-sm p-4">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
+                        <div className="form-check mt-3">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="completed"
+                                checked={formData.completed}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, completed: e.target.checked })
+                                }
+                            />
+                            <label className="form-check-label" htmlFor="completed">
+                                Completed?
+                            </label>
+                        </div>
+
                         <label className="form-label">Title</label>
                         <input
                             type="text"
@@ -89,6 +105,7 @@ function TaskCreate() {
                             className="form-control"
                             required
                         />
+
                     </div>
                     <button
                         type="submit"
@@ -125,9 +142,8 @@ function TaskCreate() {
                         }
                         placeholder="Select a tags"
                     />
-
-                </form>
-            </div>
+                </form >
+            </div >
             <Modal show={showModal} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Task created</Modal.Title>
@@ -141,7 +157,5 @@ function TaskCreate() {
             </Modal>
         </div >
     );
-
 }
-
 export default TaskCreate;
