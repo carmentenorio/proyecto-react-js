@@ -29,7 +29,7 @@ function Category() {
   const handleView = (category) => navigate(`/categories/${category.id}/view`);
   const handleEdit = (category) => navigate(`/categories/${category.id}/edit`);
   const handleCreate = () => navigate(`/categories/create`);
-
+  
   const handleDelete = (category) => {
     setSelectedCategory(category);
     setShowModal(true);
