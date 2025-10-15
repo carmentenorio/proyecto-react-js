@@ -26,8 +26,8 @@ function Category() {
     CategoryAll();
   }, []);
 
-  const handleView = (category) => navigate(`/categories/view/${category.id}`);
-  const handleEdit = (category) => navigate(`/categories/edit/${category.id}`);
+  const handleView = (category) => navigate(`/categories/${category.id}/view`);
+  const handleEdit = (category) => navigate(`/categories/${category.id}/edit`);
   const handleCreate = () => navigate(`/categories/create`);
 
   const handleDelete = (category) => {

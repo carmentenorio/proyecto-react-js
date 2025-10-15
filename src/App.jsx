@@ -16,9 +16,9 @@ function App() {
         <Routes>
           <Route path="/task" element={<Task />} />
           <Route path="/categories" element={<Category />} />
-          <Route path="/categories/view/:id" element={<CategoryView />} />
+          <Route path="/categories/:id/view" element={<CategoryView />} />
           <Route path="/categories/create" element={<CategoryCreate />} />
-          <Route path="/categories/edit/:id" element={<CategoryUpdate />} ></Route>
+          <Route path="/categories/:id/edit" element={<CategoryUpdate />} />
         </Routes></main>
       <Footer />
     </div>

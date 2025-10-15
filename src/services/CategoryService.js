@@ -14,9 +14,9 @@ const getAll = async () => {
         const data = await response.json();
         return { ok: response.ok, status: response.status, data };
     } catch (error) {
-
         console.error("Error en getAll():", error);
-        return { ok: false, status: 500, data: null };}
+        return { ok: false, status: 500, data: null };
+    }
 };
 
 const getOne = async (id) => {
@@ -27,7 +27,7 @@ const getOne = async (id) => {
         },
     });
     if (!response.ok) throw new Error("error getting category");
-    const data = await response.json();return data;
+    const data = await response.json(); return data;
 };
 
 const create = async (categoryCreate) => {
