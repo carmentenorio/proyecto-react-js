@@ -30,6 +30,7 @@ const getOne = async (id) => {
             },
         });
         const data = await response.json();
+
         return data?.data || data;
     } catch (error) {
         console.error("Error en getOne:", error);
