@@ -88,6 +88,7 @@ function Task() {
                     {task.tags && task.tags.length > 0
                       ? task.tags.map((tag) => tag.name).join(", ")
                       : "Sin tags"}
+                      
                   </td>
                   <td>
                     {task.completed ? (
