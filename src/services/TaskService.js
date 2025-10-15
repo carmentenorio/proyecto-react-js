@@ -19,10 +19,9 @@ const getAll = async () => {
         console.error("Error en getAll():", error);
     }
 };
-
 const create = async (taskData) => {
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${API_URL}/tasks`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -31,10 +30,8 @@ const create = async (taskData) => {
             body: JSON.stringify(taskData),
         });
         return await response.json();
-
     } catch (error) {
         console.log("Error in create", error);
-
     }
 }
 export default {

@@ -9,15 +9,13 @@ function Task() {
   const taskAll = async () => {
     try {
       const data = await TaskService.getAll();
-      console.log("tasks:", data);
       setTasks(data.data);
     } catch (error) {
       console.log(error);
     }
   };
   const handleCreate = (tasks) => {
-
-    navigate('/task/create')
+    navigate('/tasks/create')
   };
 
   useEffect(() => {
