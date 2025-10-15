@@ -29,7 +29,6 @@ function Category() {
   const handleView = (category) => navigate(`/categories/${category.id}/view`);
   const handleEdit = (category) => navigate(`/categories/${category.id}/edit`);
   const handleCreate = () => navigate(`/categories/create`);
-  
   const handleDelete = (category) => {
     setSelectedCategory(category);
     setShowModal(true);
@@ -41,8 +40,8 @@ function Category() {
 
       if (!response.ok) throw new Error("There was an error deleting the category.");
 
-      await CategoryAll(); 
-      handleClose(); 
+      await CategoryAll();
+      handleClose();
     } catch (error) {
       setError(error.message);
     }
@@ -112,7 +111,7 @@ function Category() {
           </tbody>
         </table>
       </div>
-      
+
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>

@@ -9,15 +9,13 @@ function Task() {
   const taskAll = async () => {
     try {
       const data = await TaskService.getAll();
-      console.log("tasks:", data);
       setTasks(data.data);
     } catch (error) {
       console.log(error);
     }
   };
   const handleCreate = (tasks) => {
-    
-    navigate('/task/create')
+    navigate('/tasks/create')
   };
 
   useEffect(() => {
@@ -42,6 +40,7 @@ function Task() {
               <th></th>
               <th scope="col">Title</th>
               <th scope="col">Description</th>
+              <th scope="col">           </th>
               <th scope="col">State</th>
               <th scope="col">Accions</th>
             </tr>
@@ -52,13 +51,41 @@ function Task() {
                 <tr key={task.id}>
                   <td>{index + 1}</td>
                   <td>{task.title}</td>
-                  <td>{task.description ?? "Sin descripción"}</td>
+                  <td>{task.description ?? "No description"}</td>
+                  <td>
+                    Categories: {task.category?.name || "Uncategorized"}<br />
+                    Tags:{" "}
+                    {task.tags && task.tags.length > 0
+                      ? task.tags.map((tag) => tag.name).join(", ")
+                      : "Sin tags"}
+
+                  </td>
                   <td>
                     {task.completed ? (
                       <span className="badge bg-success">Completed</span>
                     ) : (
                       <span className="badge bg-warning text-dark">Earring</span>
                     )}
+                  </td>
+                  <td className="text-center">
+                    <button
+                      className="btn btn-sm btn-info me-2"
+                      onClick={() => handleView(task)}
+                    >
+                      View
+                    </button>
+                    <button
+                      className="btn btn-sm btn-primary me-2"
+                      onClick={() => handleEdit(task)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => handleDelete(task)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))

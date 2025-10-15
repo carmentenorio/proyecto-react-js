@@ -3,7 +3,6 @@ const TOKEN = "7|yakMVA4sHL7YiqicAfkSXeYZbcfod3MpGDuNPDQf0ac706e3";
 
 const getAll = async () => {
     try {
-
         const response = await fetch(`${API_URL}/tasks`, {
             method: "GET",
             headers: {
@@ -19,7 +18,21 @@ const getAll = async () => {
         console.error("Error en getAll():", error);
     }
 };
-
+const create = async (taskData) => {
+    try {
+        const response = await fetch(`${API_URL}/tasks`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${TOKEN}`
+            },
+            body: JSON.stringify(taskData),
+        });
+        return await response.json();
+    } catch (error) {
+        console.log("Error in create", error);
+    }
+}
 export default {
-    getAll
+    getAll, create
 };
