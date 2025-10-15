@@ -147,7 +147,7 @@ function TaskUpdate() {
                                 tags: selected.map(t => t.value),
                             })
                         }
-                        placeholder="Select a tags"
+                        placeholder="Selecciona tags"
                     />
 
                     <button
