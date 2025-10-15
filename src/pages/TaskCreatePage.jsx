@@ -52,7 +52,6 @@ function TaskCreate() {
             setError(error.message);
         }
     };
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -105,7 +104,6 @@ function TaskCreate() {
                             className="form-control"
                             required
                         />
-
                     </div>
                     <button
                         type="submit"
