@@ -26,8 +26,6 @@ function TaskCreate() {
             try {
                 const categoriesResponse = await CategoryService.getAll();
                 const tagsResponse = await TagService.getAll();
-                console.log("que me devuelve: ", tagsResponse);
-
                 setCategories(categoriesResponse.data?.data || categoriesResponse.data || []);
                 setTags(tagsResponse.data?.data || []);
             } catch (error) {

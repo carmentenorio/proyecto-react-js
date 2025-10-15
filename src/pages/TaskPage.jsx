@@ -83,14 +83,6 @@ function Task() {
                       : "Sin tags"}
                   </td>
                   <td>
-                    Categoría: {task.category?.name || "Sin categoría"}<br />
-                    Tags:{" "}
-                    {task.tags && task.tags.length > 0
-                      ? task.tags.map((tag) => tag.name).join(", ")
-                      : "Sin tags"}
-                      
-                  </td>
-                  <td>
                     {task.completed ? (
                       <span className="badge bg-success">Completed</span>
                     ) : (
