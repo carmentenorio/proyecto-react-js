@@ -25,15 +25,10 @@ function TaskCreate() {
             try {
                 const categoriesResponse = await CategoryService.getAll();
                 const tagsResponse = await TagService.getAll();
-                console.log("que me devuelve: ", tagsResponse);
-
                 setCategories(categoriesResponse.data?.data || categoriesResponse.data || []);
-
-                console.log("tagsResponse.data.data =>", tagsResponse.data.data);
-                console.log("tagsResponse.data =>", tagsResponse.data);
                 setTags(tagsResponse.data?.data || []);
             } catch (error) {
-                console.error("Error loading categories/tags:", error);
+                setError("Error loading categories/tags:", error);
             }
         };
         fetchData();
@@ -114,7 +109,7 @@ function TaskCreate() {
                                 category_id: opt ? opt.value : null,
                             })
                         }
-                        placeholder="Selecciona una categoría"
+                        placeholder="Select a category"
                     />
                     <Select
                         isMulti
@@ -128,7 +123,7 @@ function TaskCreate() {
                                 tags: selected.map((t) => t.value),
                             })
                         }
-                        placeholder="Selecciona tags"
+                        placeholder="Select a tags"
                     />
 
                 </form>

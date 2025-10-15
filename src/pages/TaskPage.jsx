@@ -51,14 +51,14 @@ function Task() {
                 <tr key={task.id}>
                   <td>{index + 1}</td>
                   <td>{task.title}</td>
-                  <td>{task.description ?? "Sin descripción"}</td>
+                  <td>{task.description ?? "No description"}</td>
                   <td>
-                    Categoría: {task.category?.name || "Sin categoría"}<br/>
+                    Categories: {task.category?.name || "Uncategorized"}<br />
                     Tags:{" "}
                     {task.tags && task.tags.length > 0
                       ? task.tags.map((tag) => tag.name).join(", ")
                       : "Sin tags"}
-                      
+
                   </td>
                   <td>
                     {task.completed ? (
