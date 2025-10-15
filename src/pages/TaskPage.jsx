@@ -58,6 +58,7 @@ function Task() {
                     {task.tags && task.tags.length > 0
                       ? task.tags.map((tag) => tag.name).join(", ")
                       : "Sin tags"}
+                      
                   </td>
                   <td>
                     {task.completed ? (
@@ -69,19 +70,19 @@ function Task() {
                   <td className="text-center">
                     <button
                       className="btn btn-sm btn-info me-2"
-                      onClick={() => handleView(category)}
+                      onClick={() => handleView(task)}
                     >
                       View
                     </button>
                     <button
                       className="btn btn-sm btn-primary me-2"
-                      onClick={() => handleEdit(category)}
+                      onClick={() => handleEdit(task)}
                     >
                       Edit
                     </button>
                     <button
                       className="btn btn-sm btn-danger"
-                      onClick={() => handleDelete(category)}
+                      onClick={() => handleDelete(task)}
                     >
                       Delete
                     </button>

@@ -17,7 +17,7 @@ function TaskCreate() {
         name: "",
         description: "",
         category_id: null,
-        tag_ids: [],
+        tags: [],
     });
 
     useEffect(() => {
@@ -25,9 +25,13 @@ function TaskCreate() {
             try {
                 const categoriesResponse = await CategoryService.getAll();
                 const tagsResponse = await TagService.getAll();
+                console.log("que me devuelve: ", tagsResponse);
+
                 setCategories(categoriesResponse.data?.data || categoriesResponse.data || []);
 
-                setTags(tagsResponse.data?.data || tagsResponse.data || []);
+                console.log("tagsResponse.data.data =>", tagsResponse.data.data);
+                console.log("tagsResponse.data =>", tagsResponse.data);
+                setTags(tagsResponse.data?.data || []);
             } catch (error) {
                 console.error("Error loading categories/tags:", error);
             }
@@ -46,13 +50,13 @@ function TaskCreate() {
                 title: "",
                 description: "",
                 category_id: null,
-                tag_ids: [],
+                tags: [],
             });
         } catch (error) {
             setError(error.message);
         }
     };
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -72,11 +76,20 @@ function TaskCreate() {
             <div className="card shadow-sm p-4">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                        <label className="form-label">title</label>
+                        <label className="form-label">Title</label>
                         <input
                             type="text"
                             name="title"
                             value={formData.title}
+                            onChange={handleChange}
+                            className="form-control"
+                            required
+                        />
+                        <label className="form-label">Description</label>
+                        <input
+                            type="text"
+                            name="description"
+                            value={formData.description}
                             onChange={handleChange}
                             className="form-control"
                             required
@@ -103,7 +116,6 @@ function TaskCreate() {
                         }
                         placeholder="Selecciona una categoría"
                     />
-
                     <Select
                         isMulti
                         options={(tags || []).map((t) => ({
@@ -113,7 +125,7 @@ function TaskCreate() {
                         onChange={(selected) =>
                             setFormData({
                                 ...formData,
-                                tag_ids: selected.map((t) => t.value),
+                                tags: selected.map((t) => t.value),
                             })
                         }
                         placeholder="Selecciona tags"
