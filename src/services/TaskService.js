@@ -30,7 +30,6 @@ const getOne = async (id) => {
             },
         });
         const data = await response.json();
-
         return data?.data || data;
     } catch (error) {
         console.error("Error en getOne:", error);
@@ -81,7 +80,18 @@ const remove = async (id) => {
     const json = await response.json();
     return json;
 };
+const getAllPaginated = async (page = 1) => {
+    const response = await fetch(`${API_URL}/tasks?page=${page}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": `Bearer ${TOKEN}`
+        },
+    });
 
+    const data = await response.json();
+    return data;
+};
 export default {
-    getAll, create, update, getOne, remove
+    getAll, create, update, getOne, remove, getAllPaginated
 };

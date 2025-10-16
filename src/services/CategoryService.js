@@ -74,6 +74,18 @@ const remove = async (id) => {
         return { ok: false, status: 500, data: null };
     }
 };
+const getAllPaginated = async (page = 1) => {
+  const response = await fetch(`${API_URL}/categories?page=${page}`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${TOKEN}`
+    },
+  });
+
+  const data = await response.json();
+  return data;
+};
 export default {
-    getAll, getOne, create, update, remove
+    getAll, getOne, create, update, remove, getAllPaginated
 };

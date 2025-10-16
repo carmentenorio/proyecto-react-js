@@ -9,18 +9,37 @@ function Task() {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState();
-  const taskAll = async () => {
-    try {
-      const data = await TaskService.getAll();
-      setTasks(data.data);
+  const [pagination, setPagination] = useState({});
+  const [page, setPage] = useState(1);
 
-    } catch (error) {
-      console.log(error);
-    }
+  const taskAll = async () => {
+    const response = await TaskService.getAllPaginated(page);
+    setTasks(response.data || []);
+    setPagination({
+      current_page: response.current_page,
+      last_page: response.last_page,
+      next_page_url: response.next_page_url,
+      prev_page_url: response.prev_page_url,
+    });
   };
   useEffect(() => {
-    taskAll();
-  }, []);
+    const fetchTasks = async () => {
+      try {
+        const response = await TaskService.getAllPaginated(page);
+        setTasks(response.data || []);
+        setPagination({
+          current_page: response.current_page,
+          last_page: response.last_page,
+          next_page_url: response.next_page_url,
+          prev_page_url: response.prev_page_url,
+        });
+      } catch (error) {
+        console.error("Error loading tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, [page]);
 
   const handleView = (task) => navigate(`/tasks/${task.id}/view`);
   const handleEdit = (task) => navigate(`/tasks/${task.id}/edit`);
@@ -144,6 +163,19 @@ function Task() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <button
+        disabled={!pagination.prev_page_url}
+        onClick={() => setPage(page - 1)}
+      >
+        ← Former
+      </button>
+      <span>Page {pagination.current_page} of {pagination.last_page}</span>
+      <button
+        disabled={!pagination.next_page_url}
+        onClick={() => setPage(page + 1)}
+      >
+        Following →
+      </button>
     </div >
   );
 }
