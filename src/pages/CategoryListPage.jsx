@@ -9,22 +9,38 @@ function Category() {
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const navigate = useNavigate();
+  const [pagination, setPagination] = useState({});
+  const [page, setPage] = useState(1);
 
   const CategoryAll = async () => {
-    try {
-      const response = await CategoryService.getAll();
-
-      if (!response.ok) throw new Error("There was an error fetching categories.");
-
-      setCategories(response.data?.data || response.data || []);
-    } catch (error) {
-      setError(error.message);
-    }
+    const response = await CategoryService.getAllPaginated(page);
+    setCategories(response.data || []);
+    setPagination({
+      current_page: response.current_page,
+      last_page: response.last_page,
+      next_page_url: response.next_page_url,
+      prev_page_url: response.prev_page_url,
+    });
   };
 
   useEffect(() => {
-    CategoryAll();
-  }, []);
+    const fetchCategories = async () => {
+      try {
+        const response = await CategoryService.getAllPaginated(page);
+        setCategories(response.data || []);
+        setPagination({
+          current_page: response.current_page,
+          last_page: response.last_page,
+          next_page_url: response.next_page_url,
+          prev_page_url: response.prev_page_url,
+        });
+      } catch (error) {
+        console.error("Error loading tags:", error);
+      }
+    };
+
+    fetchCategories();
+  }, [page]);
 
   const handleView = (category) => navigate(`/categories/${category.id}/view`);
   const handleEdit = (category) => navigate(`/categories/${category.id}/edit`);
@@ -135,6 +151,19 @@ function Category() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <button
+        disabled={!pagination.prev_page_url}
+        onClick={() => setPage(page - 1)}
+      >
+        ← Former
+      </button>
+      <span>Page {pagination.current_page} of {pagination.last_page}</span>
+      <button
+        disabled={!pagination.next_page_url}
+        onClick={() => setPage(page + 1)}
+      >
+        Following →
+      </button>
     </div>
   );
 }

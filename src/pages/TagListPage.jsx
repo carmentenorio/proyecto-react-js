@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import TagService from '../services/TagService';
 
@@ -9,20 +9,38 @@ function Tag() {
     const [showModal, setShowModal] = useState(false);
     const [selectedTag, setSelectedTag] = useState(null);
     const navigate = useNavigate();
+    const [pagination, setPagination] = useState({});
+    const [page, setPage] = useState(1);
 
     const tagAll = async () => {
-        try {
-            const response = await TagService.getAll();
-            if (!response.ok) throw new Error("There was an error fetching tags.");
-            setTags(response.data?.data || response.data || []);
-        } catch (error) {
-            setError(error.message);
-        }
+        const response = await TagService.getAllPaginated(page);
+        setTags(response.data || []);
+        setPagination({
+            current_page: response.current_page,
+            last_page: response.last_page,
+            next_page_url: response.next_page_url,
+            prev_page_url: response.prev_page_url,
+        });
     };
 
     useEffect(() => {
-        tagAll();
-    }, []);
+        const fetchTags = async () => {
+            try {
+                const response = await TagService.getAllPaginated(page);
+                setTags(response.data || []);
+                setPagination({
+                    current_page: response.current_page,
+                    last_page: response.last_page,
+                    next_page_url: response.next_page_url,
+                    prev_page_url: response.prev_page_url,
+                });
+            } catch (error) {
+                console.error("Error loading tags:", error);
+            }
+        };
+
+        fetchTags();
+    }, [page]);
 
     const handleView = (tag) => navigate(`/tags/${tag.id}/view`);
     const handleEdit = (tag) => navigate(`/tags/${tag.id}/edit`);
@@ -131,6 +149,19 @@ function Tag() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <button
+                disabled={!pagination.prev_page_url}
+                onClick={() => setPage(page - 1)}
+            >
+                ← Former
+            </button>
+            <span>Page {pagination.current_page} of {pagination.last_page}</span>
+            <button
+                disabled={!pagination.next_page_url}
+                onClick={() => setPage(page + 1)}
+            >
+                Following →
+            </button>
         </div>
     );
 }
