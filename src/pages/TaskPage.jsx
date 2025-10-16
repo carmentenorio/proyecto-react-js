@@ -1,27 +1,51 @@
 import { useEffect, useState } from 'react';
 import TaskService from '../services/TaskService';
 import { useNavigate } from 'react-router-dom';
+import { Modal, Button } from 'react-bootstrap';
 
 function Task() {
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
-
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState();
   const taskAll = async () => {
     try {
       const data = await TaskService.getAll();
       setTasks(data.data);
+
     } catch (error) {
       console.log(error);
     }
-  };
-  const handleCreate = (tasks) => {
-    navigate('/tasks/create')
   };
 
   useEffect(() => {
     taskAll();
   }, []);
 
+  const handleView = (task) => navigate(`/tasks/${task.id}/view`);
+  const handleEdit = (task) => navigate(`/tasks/${task.id}/edit`);
+  const handleCreate = () => navigate(`/tasks/create`);
+
+  const handleDelete = (task) => {
+    setSelectedTask(task);
+    setShowModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      await TaskService.remove(selectedTask.id);
+      await taskAll();
+      handleClose();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedTask(null);
+  };
   return (
     <div className="container mt-5">
       <h2 className="mb-4 text-center">List of Tasks</h2>
@@ -58,7 +82,6 @@ function Task() {
                     {task.tags && task.tags.length > 0
                       ? task.tags.map((tag) => tag.name).join(", ")
                       : "Sin tags"}
-
                   </td>
                   <td>
                     {task.completed ? (
@@ -99,6 +122,29 @@ function Task() {
           </tbody>
         </table>
       </div>
+      <Modal show={showModal} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedTask ? (
+            <p>
+              Are you sure you want to delete the task{" "}
+              <strong>{selectedTask.title}</strong>?
+            </p>
+          ) : (
+            <p>No task selected.</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleConfirmDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div >
   );
 }

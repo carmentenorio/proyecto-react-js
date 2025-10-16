@@ -12,6 +12,8 @@ import TagView from './pages/TagViewPage';
 import TagUpdate from './pages/TagUpdate';
 import TagCreate from './pages/TagCreatePage';
 import TaskCreate from './pages/TaskCreatePage';
+import TaskUpdate from './pages/TaskUpdatePage';
+import TaskView from './pages/TaskViewPage';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Routes>
           <Route path="/tasks" element={<Task />} />
           <Route path="/tasks/create" element={<TaskCreate />} />
+          <Route path="/tasks/:id/view" element={<TaskView />} />
+          <Route path="/tasks/:id/edit" element={<TaskUpdate />} />
           <Route path="/categories" element={<Category />} />
           <Route path="/categories/:id/view" element={<CategoryView />} />
           <Route path="/categories/create" element={<CategoryCreate />} />
