@@ -13,8 +13,10 @@ function Category() {
   const CategoryAll = async () => {
     try {
       const response = await CategoryService.getAll();
+      console.log(response);
+      
 
-      if (!response.ok) throw new Error("There was an error fetching categories.");
+      if (!response) throw new Error("There was an error fetching categories.");
 
       setCategories(response.data?.data || response.data || []);
     } catch (error) {
@@ -38,7 +40,7 @@ function Category() {
     try {
       const response = await CategoryService.remove(selectedCategory.id);
 
-      if (!response.ok) throw new Error("There was an error deleting the category.");
+      if (!response) throw new Error("There was an error deleting the category.");
 
       await CategoryAll();
       handleClose();

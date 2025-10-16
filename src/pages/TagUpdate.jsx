@@ -45,7 +45,7 @@ function TagUpdate() {
             setShowModal(true);
             navigate("/tags");
 
-            if (!response.ok) {
+            if (!response) {
                 throw new Error("There was an error editing the tag");
             }
         } catch (error) {

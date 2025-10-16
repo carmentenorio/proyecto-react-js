@@ -28,7 +28,7 @@ function App() {
           <Route path="/categories" element={<Category />} />
           <Route path="/categories/:id/view" element={<CategoryView />} />
           <Route path="/categories/create" element={<CategoryCreate />} />
-          <Route path="/categories/edit/:id" element={<CategoryUpdate />} />
+          <Route path="/categories/:id/edit" element={<CategoryUpdate />} />
           <Route path="/tags" element={<Tag />} />
           <Route path="/tags/:id/view" element={<TagView />} />
           <Route path="/tags/create" element={<TagCreate />} />
