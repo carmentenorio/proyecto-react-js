@@ -17,8 +17,6 @@ function TaskShowPage() {
         setTask(data);
       } catch (err) {
         setError("The task could not be loaded.");
-      } finally {
-        setLoading(false);
       }
     };
     fetchTask();
