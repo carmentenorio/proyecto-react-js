@@ -13,8 +13,6 @@ function Category() {
   const CategoryAll = async () => {
     try {
       const response = await CategoryService.getAll();
-      console.log(response);
-      
 
       if (!response) throw new Error("There was an error fetching categories.");
 
