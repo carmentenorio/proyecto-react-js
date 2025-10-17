@@ -11,7 +11,6 @@ const login = async (params) => {
 const logout = async ()=>{
     await apiFetch('logout',{ method: 'POST'});
     localStorage.removeItem('token');
-    window.location.href = '/login';
 }
 export default {
     login, logout
