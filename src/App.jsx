@@ -14,6 +14,7 @@ import TagCreate from './pages/TagCreatePage';
 import TaskCreate from './pages/TaskCreatePage';
 import TaskUpdate from './pages/TaskUpdatePage';
 import TaskView from './pages/TaskViewPage';
+import Login from './components/auth/Login';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <NavigationBar />
       <main className="flex-fill w-100">
         <Routes>
+          <Route path='/login' element={<Login />} />
           <Route path="/tasks" element={<Task />} />
           <Route path="/tasks/create" element={<TaskCreate />} />
           <Route path="/tasks/:id/view" element={<TaskView />} />

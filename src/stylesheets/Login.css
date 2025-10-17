@@ -1,0 +1,25 @@
+.div-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 70px;
+}
+
+.login-card {
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    background: white;
+}
+
+.gradient-btn {
+    background: linear-gradient(to right, #4FACFE, #8E44AD);
+    border: none;
+    color: white;
+}
+
+.gradient-btn:hover {
+    opacity: 0.9;
+}

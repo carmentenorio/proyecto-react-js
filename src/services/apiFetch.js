@@ -1,7 +1,9 @@
+import Login from "../components/auth/Login";
+
 const BASE_URL = "http://localhost:8000/api/";
 async function apiFetch(endpoint, { method = 'GET', body, headers = {} } = {}) {
-    // const token = localStorage.getItem('token');
-    const token = "7|yakMVA4sHL7YiqicAfkSXeYZbcfod3MpGDuNPDQf0ac706e3";
+    const token = localStorage.getItem('token');
+
     const config = {
         method,
         headers: {
