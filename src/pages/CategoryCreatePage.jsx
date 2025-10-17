@@ -26,7 +26,7 @@ function CategoryCreate() {
         try {
             const response = await CategoryService.create(formData);
 
-            if (!response.ok) {
+            if (!response) {
                 throw new Error("There was an error creating the category.");
             }
             setShowModal(true);

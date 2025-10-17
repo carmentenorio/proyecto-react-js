@@ -26,7 +26,7 @@ function tagCreate() {
         try {
             const response = await TagService.create(formData);
 
-            if (!response.ok) {
+            if (!response) {
                 throw new Error("There was an error creating the tag.");
             }
             setShowModal(true);

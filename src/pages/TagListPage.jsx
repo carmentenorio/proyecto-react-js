@@ -13,7 +13,7 @@ function Tag() {
     const tagAll = async () => {
         try {
             const response = await TagService.getAll();
-            if (!response.ok) throw new Error("There was an error fetching tags.");
+            if (!response) throw new Error("There was an error fetching tags.");
             setTags(response.data?.data || response.data || []);
         } catch (error) {
             setError(error.message);

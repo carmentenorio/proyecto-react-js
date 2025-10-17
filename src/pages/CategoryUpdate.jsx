@@ -44,7 +44,7 @@ function CategoryUpdate() {
             const response = await CategoryService.update(id, formData);
             navigate("/categories");
 
-            if (!response.ok) {
+            if (!response) {
                 throw new Error("There was an error editing the category");
                 setShowModal(true);
             }
