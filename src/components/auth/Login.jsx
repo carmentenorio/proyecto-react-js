@@ -19,10 +19,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await UserService.login(credentials);
-            const token = response.access_token;
-
-            localStorage.setItem('token', token);
+            await UserService.login(credentials);
             navigate('/');
         } catch (error) {
             setError('The username or password are incorrect!');
