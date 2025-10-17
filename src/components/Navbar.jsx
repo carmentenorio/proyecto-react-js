@@ -3,15 +3,17 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Button } from "react-bootstrap";
 import userService from '../services/userService';
+import { useNavigate } from "react-router-dom";
 
 function NavigationBar() {
+    const navigate = useNavigate();
     const handleLogout = async () => {
         try {
             await userService.logout();
         } catch (error) {
             console.error('Error at sign out:', error);
         }
-        window.location.href = '/login';
+        navigate("/login");
     };
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
