@@ -1,6 +1,6 @@
 import apiFetch from './apiFetch';
 const login = async (params) => {
-    const  data  = await apiFetch('login', { method: 'POST', body: params });
+    const data = await apiFetch('login', { method: 'POST', body: params });
     return data;
 }
 const logout = () => {

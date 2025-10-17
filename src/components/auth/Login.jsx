@@ -20,11 +20,9 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await UserService.login(credentials);
-            console.log(response)
             const token = response.access_token;
 
             localStorage.setItem('token', token);
-            console.log(token);
             navigate('/');
         } catch (error) {
             setError('The username or password are incorrect!');

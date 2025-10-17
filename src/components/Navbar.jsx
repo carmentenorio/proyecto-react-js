@@ -15,7 +15,7 @@ function NavigationBar() {
                         <Nav.Link href="/tasks">Task</Nav.Link>
                         <Nav.Link href="/categories">Categories</Nav.Link>
                         <Nav.Link href="/tags">Tags</Nav.Link>
-                        <Button variant="outline-light" onClick={userService.logout}>Cerrar sesión</Button>
+                        <Button variant="outline-light" onClick={userService.logout}>Sign out</Button>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
