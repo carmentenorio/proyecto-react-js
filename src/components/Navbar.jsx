@@ -1,6 +1,8 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { Button } from "react-bootstrap";
+import userService from '../services/userService';
 
 function NavigationBar() {
     return (
@@ -13,11 +15,12 @@ function NavigationBar() {
                         <Nav.Link href="/tasks">Task</Nav.Link>
                         <Nav.Link href="/categories">Categories</Nav.Link>
                         <Nav.Link href="/tags">Tags</Nav.Link>
+                        <Button variant="outline-light" onClick={userService.logout}>Cerrar sesión</Button>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
     );
 }
-
 export default NavigationBar;
+
