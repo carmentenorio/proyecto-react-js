@@ -31,8 +31,6 @@ function TaskUpdate() {
                 ]);
 
                 const taskData = taskResponse.data || taskResponse;
-                console.log("taskData.completed recibido:", taskData.completed);
-                console.log("Tipo de completed:", typeof taskData.completed, "valor:", taskData.completed);
 
                 setFormData({
                     title: taskData.title || "",

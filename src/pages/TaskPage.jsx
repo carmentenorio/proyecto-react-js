@@ -19,7 +19,6 @@ function Task() {
       if (!response) throw new Error("Error fetching tasks.");
 
       setTasks(response.data || response);
-      console.log(response.data);
       setPagination({
         current_page: response.current_page,
         last_page: response.last_page,
