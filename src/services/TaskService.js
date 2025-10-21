@@ -1,10 +1,10 @@
 import apiFetch from './apiFetch.js';
 const TASK_ROUTE = 'tasks';
-const getAll = async () => {
-  const data = await apiFetch(`${TASK_ROUTE}`);
-  console.log('esto lelgfa del backend', data);
-  
-  return data;
+
+const getAll = async (usePagination = false, page = 1) => {
+    const endpoint =  `${TASK_ROUTE}?pages=${usePagination}&page=${page}`;
+    const { data } = await apiFetch(endpoint);
+    return data;
 };
 
 const getOne = async (id) => {
@@ -23,7 +23,6 @@ const update = async (id, taskUpdate) => {
     { method: 'PUT', body: taskUpdate }
   );
   return response;
-
 };
 
 const remove = async (id) => {

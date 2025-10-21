@@ -1,10 +1,11 @@
 import apiFetch from './apiFetch.js';
 const TAG_ROUTE = 'tags';
-const getAll = async () => {
-  const data = await apiFetch(`${TAG_ROUTE}`);
-  return data;
-};
 
+const getAll = async (usePagination = false, page = 1) => {
+    const endpoint =  `${TAG_ROUTE}?pages=${usePagination}&page=${page}`;
+    const { data } = await apiFetch(endpoint);
+    return data;
+};
 const getOne = async (id) => {
   const data = await apiFetch(`${TAG_ROUTE}/${id}`);
   return data;

@@ -5,23 +5,33 @@ import { Modal, Button } from 'react-bootstrap';
 
 function Task() {
   const [tasks, setTasks] = useState([]);
+  const [pagination, setPagination] = useState(null);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState();
-  const taskAll = async () => {
-    try {
-      const data = await TaskService.getAll();
-      setTasks(data.data);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const TasksAll = async (page = 1) => {
+    try {
+      const response = await TaskService.getAll(true, page);
+
+      if (!response) throw new Error("Error fetching tasks.");
+
+      setTasks(response.data || response);
+      setPagination({
+        current_page: response.current_page,
+        last_page: response.last_page,
+        total: response.total,
+      });
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
   };
 
   useEffect(() => {
-    taskAll();
-  }, []);
+    TasksAll(currentPage);
+  }, [currentPage]);
 
   const handleView = (task) => navigate(`/tasks/${task.id}/view`);
   const handleEdit = (task) => navigate(`/tasks/${task.id}/edit`);
@@ -122,6 +132,29 @@ function Task() {
           </tbody>
         </table>
       </div>
+      {pagination && (
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <Button
+            variant="secondary"
+            disabled={pagination.current_page === 1}
+            onClick={() => setCurrentPage(pagination.current_page - 1)}
+          >
+            ← Previous
+          </Button>
+
+          <span>
+            Page {pagination.current_page} of {pagination.last_page}
+          </span>
+
+          <Button
+            variant="secondary"
+            disabled={pagination.current_page === pagination.last_page}
+            onClick={() => setCurrentPage(pagination.current_page + 1)}
+          >
+            Next →
+          </Button>
+        </div>
+      )}
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>
