@@ -14,7 +14,7 @@ function TaskCreate() {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
-        name: "",
+        title: "",
         description: "",
         category_id: null,
         tags: [],
@@ -26,10 +26,11 @@ function TaskCreate() {
             try {
                 const categoriesResponse = await CategoryService.getAll();
                 const tagsResponse = await TagService.getAll();
-                setCategories(categoriesResponse.data?.data || categoriesResponse.data || []);
-                setTags(tagsResponse.data?.data || []);
+                setCategories(categoriesResponse.data?.data || categoriesResponse.data || categoriesResponse || []);
+                setTags(tagsResponse.data?.data || tagsResponse.data || tagsResponse || []);
+
             } catch (error) {
-                setError("Error loading categories/tags:", error);
+                setError("Error loading categories/tags:", error.message);
             }
         };
         fetchData();
