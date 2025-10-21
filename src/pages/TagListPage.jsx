@@ -5,24 +5,31 @@ import TagService from '../services/TagService';
 
 function Tag() {
     const [tags, setTags] = useState([]);
+    const [pagination, setPagination] = useState(null);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedTag, setSelectedTag] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
 
-    const tagAll = async () => {
+    const tagAll = async (page = 1) => {
         try {
-            const response = await TagService.getAll();
+            const response = await TagService.getAll(true, page);
             if (!response) throw new Error("There was an error fetching tags.");
-            setTags(response.data?.data || response.data || []);
+            setTags(response.data || response);
+            setPagination({
+                current_page: response.current_page,
+                last_page: response.last_page,
+                total: response.total,
+            });
         } catch (error) {
             setError(error.message);
         }
     };
 
     useEffect(() => {
-        tagAll();
-    }, []);
+        tagAll(currentPage);
+    }, [currentPage]);
 
     const handleView = (tag) => navigate(`/tags/${tag.id}/view`);
     const handleEdit = (tag) => navigate(`/tags/${tag.id}/edit`);
@@ -108,6 +115,29 @@ function Tag() {
                 </table>
             </div>
 
+            {pagination && (
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                    <Button
+                        variant="secondary"
+                        disabled={pagination.current_page === 1}
+                        onClick={() => setCurrentPage(pagination.current_page - 1)}
+                    >
+                        ← Previous
+                    </Button>
+
+                    <span>
+                        Page {pagination.current_page} of {pagination.last_page}
+                    </span>
+
+                    <Button
+                        variant="secondary"
+                        disabled={pagination.current_page === pagination.last_page}
+                        onClick={() => setCurrentPage(pagination.current_page + 1)}
+                    >
+                        Next →
+                    </Button>
+                </div>
+            )}
             <Modal show={showModal} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>

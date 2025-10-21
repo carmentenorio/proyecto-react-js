@@ -5,26 +5,33 @@ import CategoryService from '../services/CategoryService';
 
 function Category() {
   const [categories, setCategories] = useState([]);
+  const [pagination, setPagination] = useState(null);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
-  const CategoryAll = async () => {
+  const CategoryAll = async (page = 1) => {
     try {
-      const response = await CategoryService.getAll();
+      const response = await CategoryService.getAll(true, page);
 
-      if (!response) throw new Error("There was an error fetching categories.");
+      if (!response) throw new Error("Error fetching categories.");
 
-      setCategories(response.data?.data || response.data || []);
+      setCategories(response.data || response);
+      setPagination({
+        current_page: response.current_page,
+        last_page: response.last_page,
+        total: response.total,
+      });
     } catch (error) {
       setError(error.message);
     }
   };
 
   useEffect(() => {
-    CategoryAll();
-  }, []);
+    CategoryAll(currentPage);
+  }, [currentPage]);
 
   const handleView = (category) => navigate(`/categories/${category.id}/view`);
   const handleEdit = (category) => navigate(`/categories/${category.id}/edit`);
@@ -36,11 +43,8 @@ function Category() {
 
   const handleConfirmDelete = async () => {
     try {
-      const response = await CategoryService.remove(selectedCategory.id);
-
-      if (!response) throw new Error("There was an error deleting the category.");
-
-      await CategoryAll();
+      await CategoryService.remove(selectedCategory.id);
+      await CategoryAll(currentPage);
       handleClose();
     } catch (error) {
       setError(error.message);
@@ -77,25 +81,16 @@ function Category() {
             {categories.length > 0 ? (
               categories.map((category, index) => (
                 <tr key={category.id}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1 + (pagination?.current_page - 1) * 10}</td>
                   <td>{category.name}</td>
                   <td className="text-center">
-                    <button
-                      className="btn btn-sm btn-info me-2"
-                      onClick={() => handleView(category)}
-                    >
+                    <button className="btn btn-sm btn-info me-2" onClick={() => handleView(category)}>
                       View
                     </button>
-                    <button
-                      className="btn btn-sm btn-primary me-2"
-                      onClick={() => handleEdit(category)}
-                    >
+                    <button className="btn btn-sm btn-primary me-2" onClick={() => handleEdit(category)}>
                       Edit
                     </button>
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => handleDelete(category)}
-                    >
+                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(category)}>
                       Delete
                     </button>
                   </td>
@@ -104,13 +99,37 @@ function Category() {
             ) : (
               <tr>
                 <td colSpan="3" className="text-center py-3">
-                  There are no categories available.
+                  No categories available.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      {pagination && (
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <Button
+            variant="secondary"
+            disabled={pagination.current_page === 1}
+            onClick={() => setCurrentPage(pagination.current_page - 1)}
+          >
+            ← Previous
+          </Button>
+
+          <span>
+            Page {pagination.current_page} of {pagination.last_page}
+          </span>
+
+          <Button
+            variant="secondary"
+            disabled={pagination.current_page === pagination.last_page}
+            onClick={() => setCurrentPage(pagination.current_page + 1)}
+          >
+            Next →
+          </Button>
+        </div>
+      )}
 
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>

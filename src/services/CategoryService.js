@@ -1,8 +1,9 @@
 import apiFetch from './apiFetch.js';
 const CATEGORY_ROUTE = 'categories';
 
-const getAll = async () => {
-    const data = await apiFetch(`${CATEGORY_ROUTE}`);
+const getAll = async (usePagination = false, page = 1) => {
+    const endpoint =  `${CATEGORY_ROUTE}?pages=${usePagination}&page=${page}`;
+    const { data } = await apiFetch(endpoint);
     return data;
 };
 
