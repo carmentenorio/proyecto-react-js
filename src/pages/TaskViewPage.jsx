@@ -14,7 +14,7 @@ function TaskShowPage() {
     const fetchTask = async () => {
       try {
         const data = await TaskService.getOne(id);
-        setTask(data);
+        setTask(data.data);
       } catch (err) {
         setError("The task could not be loaded.");
       }

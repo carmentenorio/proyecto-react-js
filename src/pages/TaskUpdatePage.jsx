@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Button } from "react-bootstrap";
 import TaskService from '../services/TaskService';
 import CategoryService from '../services/CategoryService';
@@ -11,15 +10,15 @@ function TaskUpdate() {
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
-        name: "",
+        title: "",
         description: "",
         category_id: null,
         tags: [],
         completed: false,
     });
+    const navigate = useNavigate();
     const { id } = useParams();
 
     useEffect(() => {
@@ -30,20 +29,33 @@ function TaskUpdate() {
                     CategoryService.getAll(),
                     TagService.getAll(),
                 ]);
+
                 const taskData = taskResponse.data || taskResponse;
 
                 setFormData({
                     title: taskData.title || "",
                     description: taskData.description || "",
                     category_id: taskData.category_id || null,
-                    tag_ids: taskData.tags ? taskData.tags.map(t => t.id) : [],
-                    completed: taskData.completed || false,
+                    tags: taskData.tags ? taskData.tags.map(t => t.id) : [],
+                    completed: taskData.completed === true || taskData.completed === 1 || taskData.completed === "1",
                 });
-                setCategories(categoriesResponse.data?.data || categoriesResponse.data || []);
-                setTags(tagsResponse.data?.data || []);
+
+                setCategories(
+                    categoriesResponse?.data?.data ||
+                    categoriesResponse?.data ||
+                    categoriesResponse ||
+                    []
+                );
+
+                setTags(
+                    tagsResponse?.data?.data ||
+                    tagsResponse?.data ||
+                    tagsResponse ||
+                    []
+                );
 
             } catch (error) {
-                setError("Error loading tasks:", error);
+                setError("Error loading tasks: " + error.message);
             }
         };
         fetchData();
@@ -52,11 +64,9 @@ function TaskUpdate() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
-
         try {
             await TaskService.update(id, formData);
             setShowModal(true);
-
         } catch (error) {
             setError(error.message);
         }
@@ -74,6 +84,7 @@ function TaskUpdate() {
         setShowModal(false);
         navigate("/tasks");
     };
+
     return (
         <div className="container mt-5">
             <h2 className="mb-4 text-center">Edit Task</h2>
@@ -96,7 +107,7 @@ function TaskUpdate() {
                             </label>
                         </div>
 
-                        <label className="form-label">Title</label>
+                        <label className="form-label mt-3">Title</label>
                         <input
                             type="text"
                             name="title"
@@ -105,7 +116,8 @@ function TaskUpdate() {
                             className="form-control"
                             required
                         />
-                        <label className="form-label">Description</label>
+
+                        <label className="form-label mt-3">Description</label>
                         <input
                             type="text"
                             name="description"
@@ -115,52 +127,61 @@ function TaskUpdate() {
                         />
                     </div>
 
-                    <Select
-                        options={(categories || []).map((c) => ({
-                            value: c.id,
-                            label: c.name,
-                        }))}
-                        value={
-                            categories
-                                .map((c) => ({ value: c.id, label: c.name }))
-                                .find((opt) => opt.value === formData.category_id) || null
-                        }
-                        onChange={(opt) =>
-                            setFormData({
-                                ...formData,
-                                category_id: opt ? opt.value : null,
-                            })
-                        }
-                        placeholder="Select a category"
-                    />
-                    <Select
-                        isMulti
-                        options={tags.map(t => ({ value: t.id, label: t.name }))}
-                        value={(formData.tags || []).map(id => {
-                            const tag = tags.find(t => t.id === id);
-                            return tag ? { value: tag.id, label: tag.name } : null;
-                        }).filter(Boolean)}
+                    <div className="mt-3">
+                        <Select
+                            options={categories.map((c) => ({
+                                value: c.id,
+                                label: c.name,
+                            }))}
+                            value={
+                                categories.find((c) => c.id === formData.category_id)
+                                    ? {
+                                        value: formData.category_id,
+                                        label: categories.find((c) => c.id === formData.category_id).name,
+                                    }
+                                    : null
+                            }
+                            onChange={(opt) =>
+                                setFormData({
+                                    ...formData,
+                                    category_id: opt ? opt.value : null,
+                                })
+                            }
+                            placeholder="Select a category"
+                        />
+                    </div>
 
-                        onChange={(selected) =>
-                            setFormData({
-                                ...formData,
-                                tags: selected.map(t => t.value),
-                            })
-                        }
-                        placeholder="Select a tags"
-                    />
+                    <div className="mt-3">
+                        <Select
+                            isMulti
+                            options={tags.map((t) => ({
+                                value: t.id,
+                                label: t.name,
+                            }))}
+                            value={(formData.tags || [])
+                                .map(id => {
+                                    const tag = tags.find(t => t.id === id);
+                                    return tag ? { value: tag.id, label: tag.name } : null;
+                                })
+                                .filter(Boolean)}
+                            onChange={(selected) =>
+                                setFormData({
+                                    ...formData,
+                                    tags: selected ? selected.map(t => t.value) : [],
+                                })
+                            }
+                            placeholder="Select tags"
+                        />
+                    </div>
 
-                    <button
-                        type="submit"
-                        className="btn btn-sm btn-info me-2"
-                    >
+                    <button type="submit" className="btn btn-sm btn-info mt-4">
                         Save
                     </button>
 
                     {error && <p className="text-danger mt-2">{error}</p>}
-
                 </form>
             </div>
+
             <Modal show={showModal} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Task edited</Modal.Title>
@@ -172,9 +193,8 @@ function TaskUpdate() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div >
+        </div>
     );
-
 }
 
 export default TaskUpdate;
