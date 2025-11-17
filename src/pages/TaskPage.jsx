@@ -19,6 +19,7 @@ function Task() {
       if (!response) throw new Error("Error fetching tasks.");
 
       setTasks(response.data || response);
+      
       setPagination({
         current_page: response.current_page,
         last_page: response.last_page,
@@ -45,7 +46,7 @@ function Task() {
   const handleConfirmDelete = async () => {
     try {
       await TaskService.remove(selectedTask.id);
-      await taskAll();
+      await TasksAll(currentPage);
       handleClose();
     } catch (error) {
       setError(error.message);
