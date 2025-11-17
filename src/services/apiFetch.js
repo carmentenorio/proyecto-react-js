@@ -1,6 +1,7 @@
 import Login from "../components/auth/Login";
 
-const BASE_URL = "http://localhost:8000/api/";
+const BASE_URL = import.meta.env.VITE_BE_BASE_URL;
+console.log("BASE_URL",BASE_URL);
 async function apiFetch(endpoint, { method = 'GET', body, headers = {} } = {}) {
     const token = localStorage.getItem('token');
 
