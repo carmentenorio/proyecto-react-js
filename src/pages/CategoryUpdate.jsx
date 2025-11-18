@@ -13,13 +13,13 @@ function CategoryUpdate() {
         name: ""
     }
     );
-
     useEffect(() => {
         const fetchCategory = async () => {
             try {
                 const response = await CategoryService.getOne(id);
-                setCategory(response.data);
-
+                setFormData({
+                    name: response.data.name
+                });
             } catch (error) {
                 setError(error.message);
             }

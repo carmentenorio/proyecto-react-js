@@ -15,11 +15,13 @@ function TagUpdate() {
     );
 
     useEffect(() => {
+
         const fetchTag = async () => {
             try {
                 const response = await TagService.getOne(id);
-                setTag(response.data);
-                setFormData({ name: tagData.name });
+                setFormData({
+                    name: response.data.name
+                });
             } catch (error) {
                 setError(error.message);
             }
